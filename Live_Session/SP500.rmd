@@ -1,25 +1,43 @@
+---
+title: "SP500"
+author: "Vivek Viswanathan"
+date: "November 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Unit 11: Modeling Financial Data
 # Uncomment and install packages if you don't have it
 #install.packages("tseries")
 
 # Description: Please fill out that this is for educational purposes and talk about what it's for!
-
+```{r}
 library(tseries)
-
+```
 ## S&P 500 (^GSPC)
 ###    SNP - SNP Real Time Price. Currency in USD
 
 # TODO: Download the data of SP500 '^gspc'.
+```{r}
 SNPdata <- get.hist.quote('^gspc',quote="Close")
+```
 
 # TODO: Calculate the log returns, which is the subtraction of log(lag(SNPdata)) and log(SNPdata)
+```{r}
 SNPret <- log(lag(SNPdata)) - log(SNPdata)
+```
 
 # TODO: Calculate volatility measure that is to multiply sd(SNPret),sqrt(250), 100
+```{r}
 SNPvol <- sd(SNPret)*sqrt(250)*100
+```
 
 
 ## Define getVol function for volatility
+```{r}
 getVol <- function(d, logrets) {
 	var = 0
 	lam = 0
@@ -33,24 +51,32 @@ getVol <- function(d, logrets) {
 
 	sqrt(varlist)
 }
+```
 
 # Calculate volatility over entire length of series for various three different decay factors: 10 30. 100
 
 # TODO: call getVol function with the parameters: 10,SNPret
+```{r}
 volest <- getVol(10,SNPret)
+```
 
 # TODO: call getVol function with the parameters: 30,SNPret
+```{r}
 volest2 <- getVol(30,SNPret)
+```
 
 # TODO: call getVol function with the parameters: 100,SNPret
+```{r}
 volest3 <- getVol(100,SNPret)
+```
 
 # Plot the results, overlaying the volatility curves on the data, just as was done in the S&P example.
-plot(volest,type="l")
 
 # TODO: Add connected line segments for volest2 with the parameters: type="l",col="red"
-lines(volest2,type="l", col = "red")
 
 # TODO: Add connected line segments for volest3 with the parameters: type="l",col="blue"
+```{r}
+plot(volest,type="l")
+lines(volest2,type="l", col = "red")
 lines(volest3,type="l", col = "blue")
-
+```
